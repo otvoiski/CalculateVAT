@@ -2,7 +2,7 @@
 {
     public class VATDataModel
     {
-        public double[] VAT { get; internal set; }
-        public string Name { get; internal set; }
+        public double[] VAT { get; set; }
+        public string Name { get; set; }
     }
 }
