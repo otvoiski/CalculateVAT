@@ -1,8 +1,8 @@
-import { IVat } from "./vat.interface";
+import { IVatCountry } from "./vat.interface";
 
 export interface IVatSlice {
   isLoading: boolean,
   error?: string,
-  active?: IVat;
-  items: IVat[];
+  active?: IVatCountry;
+  items: IVatCountry[];
 }

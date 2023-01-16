@@ -1,5 +1,4 @@
-using CalculateVAT.Data;
-using CalculateVAT.Models;
+using CalculateVAT.Repository;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CalculateVAT.Controllers
@@ -8,10 +7,19 @@ namespace CalculateVAT.Controllers
     [Route("api/[controller]")]
     public class VatController : ControllerBase
     {
-        [HttpGet]
-        public IList<VATDataModel> Get()
+        private readonly IVatRepository _vatRepository;
+
+        public VatController(IVatRepository vatRepository)
         {
-            return DataBaseItems.GetVatData();
+            _vatRepository = vatRepository;
+        }
+
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            var response = _vatRepository.GetAll();
+
+            return Ok(response);
         }
     }
 }

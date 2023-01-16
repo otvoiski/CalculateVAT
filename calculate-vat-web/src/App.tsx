@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   Center,
   Divider,
   FormControl,
@@ -13,7 +12,7 @@ import {
   WarningOutlineIcon,
 } from "native-base";
 import { connect } from "react-redux";
-import { IVat } from "./interfaces/vat.interface";
+import { IVatCountry } from "./interfaces/vat.interface";
 import { changeVat } from "./redux/slices/vat.slice";
 import { AppDispatch, RootState } from "./redux/store";
 
@@ -25,9 +24,9 @@ import { getVats } from "./redux/trunks/vat.trunk";
 import { vatSchema } from "./schemas/vat.schema";
 
 interface IApp {
-  items: IVat[];
+  items: IVatCountry[];
   isLoading: boolean;
-  active?: IVat;
+  active?: IVatCountry;
   getAllVatItems: () => void;
   changeVatActive: (name: string) => void;
 }
@@ -56,16 +55,15 @@ function App(props: IApp) {
 
   const changeGroupVatRate = (i: string) => {
     const index = parseInt(i);
-    const value = props.active?.vat[index] ?? 0;
+    const value = props.active?.vats[index].value ?? 0;
     calc(value);
     setRadiusTax(value);
   };
 
   const calc = (valueTax?: number) => {
     setPriceIncludedVat(
-      (priceWithoutVat * (valueTax ? valueTax / 100 : radiusTax / 100))  +
-      (priceWithoutVat - valueAddedTax)
-        
+      priceWithoutVat * (valueTax ? valueTax / 100 : radiusTax / 100) +
+        (priceWithoutVat - valueAddedTax)
     );
   };
 
@@ -107,11 +105,11 @@ function App(props: IApp) {
                       alignItems="center"
                       space={5}
                     >
-                      {props.active?.vat.map((vat, key) => (
+                      {props.active?.vats.map((vat, key) => (
                         <Radio
                           key={key}
                           value={key.toString()}
-                        >{`${vat.toString()}%`}</Radio>
+                        >{`${vat.value.toString()}%`}</Radio>
                       ))}
                     </HStack>
                   </Radio.Group>
